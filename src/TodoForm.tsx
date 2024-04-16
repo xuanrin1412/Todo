@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addTodo, filterTodos } from '../src/features/todoSlice';
+import { VisibilityFilter, addTodo, setFilter } from '../src/features/todoSlice';
 
 const TodoForm: React.FC = () => {
     const [text, setText] = useState('');
@@ -10,7 +10,7 @@ const TodoForm: React.FC = () => {
         e.preventDefault();
         if (text.trim() !== '') {
             dispatch(addTodo(text));
-            dispatch(filterTodos());
+            dispatch(setFilter(VisibilityFilter.SHOW_ALL));
             setText('');
         }
     };

@@ -37,16 +37,22 @@ const todoSlice = createSlice({
       state.todos.push(newTodo);
     },
     toggleTodo: (state, action: PayloadAction<number>) => {
-      const todo = state.todos.find(todo => todo.id === action.payload);
-      if (todo) {
-        todo.completed = !todo.completed;
+      const todoIndex = state.todos.findIndex(todo => todo.id === action.payload);
+      if (todoIndex !== -1) {
+          return {
+              ...state,
+              todos: [
+                  ...state.todos.slice(0, todoIndex),
+                  { ...state.todos[todoIndex], completed: !state.todos[todoIndex].completed },
+                  ...state.todos.slice(todoIndex + 1),
+              ],
+          };
       }
+      return state;
     },
     setFilter: (state, action: PayloadAction<VisibilityFilter>) => {
       state.filter = action.payload;
-    },
-    filterTodos: state => {
-      switch (state.filter) {
+      switch (action.payload) {
         case VisibilityFilter.SHOW_ACTIVE:
           state.filteredTodos = state.todos.filter(todo => !todo.completed);
           break;
@@ -57,9 +63,9 @@ const todoSlice = createSlice({
           state.filteredTodos = state.todos;
           break;
       }
-    }
+    },
   },
 });
 
-export const { addTodo, toggleTodo, setFilter ,filterTodos} = todoSlice.actions;
+export const { addTodo, toggleTodo, setFilter } = todoSlice.actions;
 export default todoSlice.reducer;
