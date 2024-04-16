@@ -37,17 +37,10 @@ const todoSlice = createSlice({
       state.todos.push(newTodo);
     },
     toggleTodo: (state, action: PayloadAction<number>) => {
-      const todoIndex = state.todos.findIndex(todo => todo.id === action.payload);
-      if (todoIndex !== -1) {
-          return {
-              ...state,
-              todos: [
-                  ...state.todos.slice(0, todoIndex),
-                  { ...state.todos[todoIndex], completed: !state.todos[todoIndex].completed },
-                  ...state.todos.slice(todoIndex + 1),
-              ],
-          };
-      }
+     
+        const todoIndex = state.todos.findIndex(todo => todo.id === action.payload);
+        state.todos[todoIndex].completed = !state.todos[todoIndex].completed ;
+     
       return state;
     },
     setFilter: (state, action: PayloadAction<VisibilityFilter>) => {
